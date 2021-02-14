@@ -10,22 +10,23 @@ using Rentify.Models;
 
 namespace Rentify.Controllers
 {
-    public class MoviesController : Controller
+    public class CustomersController : Controller
     {
         private readonly MyDBContext _context;
 
-        public MoviesController(MyDBContext context)
+        public CustomersController(MyDBContext context)
         {
             _context = context;
         }
 
-        // GET: Movies
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peliculas.ToListAsync());
+            var myDBContext = _context.Clientes.Include(c => c.TipoMembresia);
+            return View(await myDBContext.ToListAsync());
         }
 
-        // GET: Movies/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,38 +34,42 @@ namespace Rentify.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FirstOrDefaultAsync(m => m.Id == id);
-            if (pelicula == null)
+            var cliente = await _context.Clientes
+                .Include(c => c.TipoMembresia)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(pelicula);
+            return View(cliente);
         }
 
-        // GET: Movies/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id");
             return View();
         }
 
-        // POST: Movies/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre")] Pelicula pelicula)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,EstaSubscrito,TipoMembresiaId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pelicula);
+                _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pelicula);
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id", cliente.TipoMembresiaId);
+            return View(cliente);
         }
 
-        // GET: Movies/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +77,23 @@ namespace Rentify.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FindAsync(id);
-            if (pelicula == null)
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
-            return View(pelicula);
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id", cliente.TipoMembresiaId);
+            return View(cliente);
         }
 
-        // POST: Movies/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre")] Pelicula pelicula)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,EstaSubscrito,TipoMembresiaId")] Cliente cliente)
         {
-            if (id != pelicula.Id)
+            if (id != cliente.Id)
             {
                 return NotFound();
             }
@@ -96,12 +102,12 @@ namespace Rentify.Controllers
             {
                 try
                 {
-                    _context.Update(pelicula);
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeliculaExists(pelicula.Id))
+                    if (!ClienteExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +118,11 @@ namespace Rentify.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pelicula);
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id", cliente.TipoMembresiaId);
+            return View(cliente);
         }
 
-        // GET: Movies/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +130,31 @@ namespace Rentify.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas
+            var cliente = await _context.Clientes
+                .Include(c => c.TipoMembresia)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pelicula == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(pelicula);
+            return View(cliente);
         }
 
-        // POST: Movies/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pelicula = await _context.Peliculas.FindAsync(id);
-            _context.Peliculas.Remove(pelicula);
+            var cliente = await _context.Clientes.FindAsync(id);
+            _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PeliculaExists(int id)
+        private bool ClienteExists(int id)
         {
-            return _context.Peliculas.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }

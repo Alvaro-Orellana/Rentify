@@ -10,7 +10,7 @@ namespace Rentify.ViewModels
         {
         }
 
-        public Pelicula Pelicula { get; set; }
+        public List<Pelicula> Peliculas { get; set; }
         public List<Cliente> Clientes { get; set; }
     }
 }

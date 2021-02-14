@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Rentify.Models
 {
     public class Cliente
@@ -8,6 +10,11 @@ namespace Rentify.Models
         }
 
         public int Id { get; set; }
+        [Required]
+        [StringLength(255)]
         public string Nombre { get; set; }
+        public bool EstaSubscrito { get; set; }
+        public virtual TipoMembresia TipoMembresia { get; set; }
+        public byte TipoMembresiaId { get; set; }
     }
 }

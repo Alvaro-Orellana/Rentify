@@ -1,13 +1,23 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model Rentify.Models.Pelicula
+﻿@model IEnumerable<Rentify.Models.Pelicula>
 
 @{
-    ViewBag.title = "Index";
+    ViewBag.title = "Peliculas";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-
-<h2>Index de peliculas controller</h2>
-<h2>@Model.Nombre</h2>
+<h2>Peliculas</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Pelicula</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pelicula in Model)
+        {
+            <tr>
+                <td>@pelicula.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
