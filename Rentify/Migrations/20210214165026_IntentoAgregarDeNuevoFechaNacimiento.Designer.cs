@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rentify.Data;
 
 namespace Rentify.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210214165026_IntentoAgregarDeNuevoFechaNacimiento")]
+    partial class IntentoAgregarDeNuevoFechaNacimiento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,42 +45,16 @@ namespace Rentify.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("Rentify.Models.Genero", b =>
-                {
-                    b.Property<byte>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genero");
-                });
-
             modelBuilder.Entity("Rentify.Models.Pelicula", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<ushort>("CantidadEnStock")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaEstreno")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte>("GeneroId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GeneroId");
 
                     b.ToTable("Peliculas");
                 });
@@ -114,17 +90,6 @@ namespace Rentify.Migrations
                         .IsRequired();
 
                     b.Navigation("TipoMembresia");
-                });
-
-            modelBuilder.Entity("Rentify.Models.Pelicula", b =>
-                {
-                    b.HasOne("Rentify.Models.Genero", "Genero")
-                        .WithMany()
-                        .HasForeignKey("GeneroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Genero");
                 });
 #pragma warning restore 612, 618
         }

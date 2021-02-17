@@ -16,5 +16,7 @@ namespace Rentify.Models
         public bool EstaSubscrito { get; set; }
         public virtual TipoMembresia TipoMembresia { get; set; }
         public byte TipoMembresiaId { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
+
     }
 }
