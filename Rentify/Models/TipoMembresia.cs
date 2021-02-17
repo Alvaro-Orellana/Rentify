@@ -26,5 +26,6 @@ namespace Rentify.Models
         public short CostoRegistro { get; set; }
         public byte DuracionEnMeses { get; set; }
         public byte Descuento { get; set; }
+        public string Nombre { get; set; }
     }
 }
