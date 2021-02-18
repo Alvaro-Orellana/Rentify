@@ -22,7 +22,7 @@ namespace Rentify.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peliculas.ToListAsync());
+            return View(await _context.Peliculas.Include(p => p.Genero).ToListAsync());
         }
 
         // GET: Movies/Details/5
@@ -33,7 +33,7 @@ namespace Rentify.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FirstOrDefaultAsync(m => m.Id == id);
+            var pelicula = await _context.Peliculas.Include(p => p.Genero).FirstOrDefaultAsync(m => m.Id == id);
             if (pelicula == null)
             {
                 return NotFound();
