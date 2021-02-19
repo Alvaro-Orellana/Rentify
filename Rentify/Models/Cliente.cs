@@ -10,11 +10,14 @@ namespace Rentify.Models
         }
 
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El campo Nombre es requerido")]
         [StringLength(255)]
         public string Nombre { get; set; }
+
         public bool EstaSubscrito { get; set; }
+
         public virtual TipoMembresia TipoMembresia { get; set; }
+
         public byte TipoMembresiaId { get; set; }
         public DateTime? FechaNacimiento { get; set; }
 
