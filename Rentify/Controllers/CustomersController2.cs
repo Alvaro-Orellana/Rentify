@@ -48,7 +48,7 @@ namespace Rentify.Controllers
         // GET: CustomersController2/Create
         public IActionResult Create()
         {
-            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id");
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Nombre");
             return View();
         }
 
@@ -82,7 +82,7 @@ namespace Rentify.Controllers
             {
                 return NotFound();
             }
-            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id", cliente.TipoMembresiaId);
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Nombre", cliente.TipoMembresiaId);
             return View(cliente);
         }
 
