@@ -118,7 +118,7 @@ namespace Rentify.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Id", cliente.TipoMembresiaId);
+            ViewData["TipoMembresiaId"] = new SelectList(_context.Set<TipoMembresia>(), "Id", "Nombre", cliente.TipoMembresiaId);
             return View(cliente);
         }
 

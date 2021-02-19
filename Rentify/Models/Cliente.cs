@@ -19,6 +19,8 @@ namespace Rentify.Models
         public virtual TipoMembresia TipoMembresia { get; set; }
 
         public byte TipoMembresiaId { get; set; }
+
+        [Min18EdadParaMembresia]
         public DateTime? FechaNacimiento { get; set; }
 
     }

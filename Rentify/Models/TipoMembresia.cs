@@ -27,5 +27,8 @@ namespace Rentify.Models
         public byte DuracionEnMeses { get; set; }
         public byte Descuento { get; set; }
         public string Nombre { get; set; }
+
+
+        public static readonly byte PagoAlContado = 1;
     }
 }
