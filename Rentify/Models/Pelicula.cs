@@ -20,6 +20,7 @@ namespace Rentify.Models
         public DateTime FechaEstreno { get; set; }
 
         [Required(ErrorMessage = "Debe agregar el numero de peliculas en stock")]
+        [MinStockPermitido]
         public ushort CantidadEnStock { get; set; }
 
         public virtual Genero Genero { get; set; }
